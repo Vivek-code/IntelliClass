@@ -1,0 +1,100 @@
+
+/* form decoration and style */
+
+
+body
+{
+    background-image:url(/static/img/complain1.jpg);
+    background-size: cover;
+    background-position: center;
+    opacity: 1.5;
+    width: 100%;
+    height:100vh;
+   
+    align-items: center;
+    justify-content: center;
+}
+.form-control {
+  border-radius: 20px !important;
+}
+
+/* Style form select dropdown */
+.select {
+  border-radius: 20px !
+}
+
+.form-group label {
+  color: #062a3b; /* Form label color */
+  font-size: 20px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+  margin-top: 10px;
+ 
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  font-style: normal;
+ 
+}
+.form-control {
+  border-color: #ced4da; /* Form input border color */
+}
+.form-control:focus {
+  border-color: #007bff; /* Form input border color on focus */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Form input focus effect */
+}
+
+.input-group-text
+{
+  font-size: 15px;
+  background-color: #2a5976;
+  color: white;
+  margin-right: 6px;
+  cursor: pointer;
+  border-radius: 16px;
+  
+
+}
+
+.text-center {
+
+  /* Other existing styles */
+  text-align: center;
+  font-size: 2.3rem;
+  margin-bottom: 4rem;
+  font-weight: bolder;
+  text-transform: uppercase;
+  color:#19325d;  /*#607d8b;*/
+  letter-spacing: 1px;
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  font-style: normal;
+
+
+
+
+}
+
+
+/* Submit button style */
+.btn {
+background-color: #37517e; /* Button color */
+border: none; /* Remove button border */
+padding: 10px 20px; /* Add padding to the button */
+font-weight: 500;
+width: 100%;
+color: #fff; /* Text color */
+outline: none;
+cursor: pointer;
+border-radius: 20px;
+
+}
+
+.btn:hover {
+background-color: #7186ac; /* Darker color on hover */
+color: #000; /* Text color on hover */
+}
+
+
+
+
+/* form style ended */
