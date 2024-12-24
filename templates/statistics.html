@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSV Insights - Statistics</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1,
+      h2 {
+        text-align: center;
+      }
+      .container {
+        margin: 20px auto;
+        max-width: 800px;
+      }
+      .table-container {
+        margin: 20px auto;
+        border-collapse: collapse;
+        width: 100%;
+        text-align: left;
+      }
+      table {
+        border: 1px solid #ddd;
+        width: 100%;
+      }
+      table th,
+      table td {
+        padding: 8px;
+        text-align: center;
+      }
+      table th {
+        background-color: #f2f2f2;
+      }
+      .plot-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+      }
+      img {
+        max-width: 90%;
+        height: auto;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Statistics and Insights</h1>
+    <div class="container">
+      <h2>Top 5 Students</h2>
+      <table class="table-container">
+        <tr>
+          <th>Roll</th>
+          <th>Name</th>
+          <th>Total Marks</th>
+        </tr>
+        {% for student in top_students %}
+        <tr>
+          <td>{{ student['Roll'] }}</td>
+          <td>{{ student['Name'] }}</td>
+          <td>{{ student['Total Marks'] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <h2>Subject-wise Toppers</h2>
+      {% for subject, toppers in subject_toppers.items() %}
+      <h3>{{ subject }}</h3>
+      <table class="table-container">
+        <tr>
+          <th>Roll</th>
+          <th>Name</th>
+          <th>Marks</th>
+        </tr>
+        {% for topper in toppers %}
+        <tr>
+          <td>{{ topper['Roll'] }}</td>
+          <td>{{ topper['Name'] }}</td>
+          <td>{{ topper[subject] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endfor %}
+
+      <h2>Average Scores by Subject</h2>
+      <div class="plot-container">
+        <img
+          src="data:image/png;base64,{{ plots['average_scores'] }}"
+          alt="Average Scores"
+        />
+      </div>
+
+      <h2>Pass/Fail Distribution</h2>
+      <div class="plot-container">
+        <img
+          src="data:image/png;base64,{{ plots['pass_fail'] }}"
+          alt="Pass/Fail Distribution"
+        />
+      </div>
+
+      <h2>Marks Distribution by Subject</h2>
+      {% for subject, plot in marks_distribution.items() %}
+      <h3>{{ subject }}</h3>
+      <div class="plot-container">
+        <img
+          src="data:image/png;base64,{{ plot }}"
+          alt="Marks Distribution in {{ subject }}"
+        />
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

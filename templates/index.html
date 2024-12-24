@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSV Result Viewer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
+        background-color: #f7f7f7;
+      }
+      h1,
+      h2 {
+        color: #333;
+      }
+      form {
+        margin-bottom: 20px;
+      }
+      label {
+        font-weight: bold;
+      }
+      input[type="file"],
+      input[type="text"],
+      button {
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #result {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSV Result Viewer</h1>
+
+    <!-- Upload CSV Section -->
+    <h2>Upload CSV File</h2>
+    <form
+      id="upload-form"
+      method="POST"
+      enctype="multipart/form-data"
+      action="/upload"
+    >
+      <input type="file" name="file" required />
+      <button type="submit">Upload CSV</button>
+    </form>
+    <hr />
+
+    <!-- Search Result Section -->
+    <h2>Search Result</h2>
+    <form id="result-form" method="POST" action="#">
+      <label for="roll_number">Enter Roll Number:</label><br />
+      <input
+        type="text"
+        name="roll_number"
+        id="roll_number"
+        placeholder="Enter Roll Number"
+        required
+      /><br />
+      <button type="button" onclick="getResult()">Get Result</button>
+      <button type="button" onclick="downloadPDF()">Download PDF</button>
+    </form>
+
+    <!-- Display Results -->
+    <div id="result"></div>
+
+    <script>
+      // Fetch result using roll number
+      async function getResult() {
+        const rollNumber = document.getElementById("roll_number").value;
+        const formData = new FormData();
+        formData.append("roll_number", rollNumber);
+
+        const response = await fetch("/get_result", {
+          method: "POST",
+          body: formData,
+        });
+
+        const resultDiv = document.getElementById("result");
+        if (response.ok) {
+          const data = await response.json();
+          resultDiv.innerHTML = `
+                    <p><strong>Roll Number:</strong> ${data.roll_number}</p>
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>Maths:</strong> ${data.maths}</p>
+                    <p><strong>Science:</strong> ${data.science}</p>
+                    <p><strong>English:</strong> ${data.english}</p>
+                    <p><strong>History:</strong> ${data.history}</p>
+                    <p><strong>Total Marks:</strong> ${data.total_marks}</p>
+                    <p><strong>Percentage:</strong> ${data.percentage.toFixed(
+                      2
+                    )}%</p>
+                    <p><strong>Status:</strong> ${data.status}</p>
+                `;
+        } else {
+          resultDiv.innerHTML = `
+                    <p class="error">Result not found or invalid Roll Number.</p>
+                `;
+        }
+      }
+
+      // Download result as PDF
+      function downloadPDF() {
+        const rollNumber = document.getElementById("roll_number").value;
+        if (!rollNumber) {
+          alert("Please enter a roll number to download the result.");
+          return;
+        }
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/download_pdf";
+
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "roll_number";
+        input.value = rollNumber;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+      }
+    </script>
+  </body>
+</html>
